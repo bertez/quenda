@@ -14,8 +14,7 @@ var banner = ['/**',
     ' * @link <%= pkg.homepage %>',
     ' * @license <%= pkg.license %>',
     ' */',
-    '',
-    '',
+    ''
 ].join('\n');
 
 gulp.task('watch', function() {

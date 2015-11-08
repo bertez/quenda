@@ -5,7 +5,6 @@
  * @link https://github.com/bertez/quenda
  * @license MIT
  */
-
 (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['merge'], factory);
