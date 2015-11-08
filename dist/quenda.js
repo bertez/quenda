@@ -2,7 +2,7 @@
  * quenda - A simple javascript function queue.
  * @version v0.0.1
  * @author Berto Yáñez <berto@ber.to>
- * @link https://github.com/bertez/quenda
+ * @homepage https://github.com/bertez/quenda
  * @license MIT
  */
 (function(root, factory) {
