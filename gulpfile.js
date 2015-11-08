@@ -10,10 +10,12 @@ var package = require('./package.json');
 var banner = ['/**',
     ' * <%= pkg.name %> - <%= pkg.description %>',
     ' * @version v<%= pkg.version %>',
+    ' * @author <%= pkg.author %>',
     ' * @link <%= pkg.homepage %>',
     ' * @license <%= pkg.license %>',
     ' */',
-    ''
+    '',
+    '',
 ].join('\n');
 
 gulp.task('watch', function() {

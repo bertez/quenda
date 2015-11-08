@@ -1,9 +1,11 @@
 /**
  * quenda - A simple javascript function queue.
  * @version v0.0.1
+ * @author Berto Yáñez <berto@ber.to>
  * @link 
  * @license MIT
  */
+
 (function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         define(['merge'], factory);
@@ -25,11 +27,19 @@
         queues: [],
         prototype: {
             add: function(step) {
+                if (!step) {
+                    throw new Error('Not enough arguments');
+                }
+
                 if (Array.isArray(step)) {
                     step.forEach(function(s) {
                         this.add(s);
                     }, this);
                 } else {
+                    if (step.nextDelay < 0) {
+                        throw new Error('Steps shold have at least a nextDelay property greater than 0');
+                    }
+
                     this.steps.push(step);
                 }
                 return this;
@@ -52,6 +62,9 @@
 
                 return this;
             },
+            getSteps: function() {
+                return this.steps;
+            },
             _current: 0,
             loops: 0,
             _ExecuteNext: function(step) {
@@ -63,12 +76,12 @@
 
                 if (step.preload && !step.preloaded) {
                     this._handlePreload(step.preload, function() {
-                        this._setNextTimeout(step.nextDelay);
+                        this._setNextTimeout(parseInt(step.nextDelay, 10));
                         step.preloaded = true;
                         step.fn && step.fn();
                     }.bind(this));
                 } else {
-                    this._setNextTimeout(step.nextDelay);
+                    this._setNextTimeout(parseInt(step.nextDelay));
                     step.fn && step.fn();
                 }
             },

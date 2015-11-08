@@ -1,4 +1,5 @@
 var expect = require('chai').expect;
+var sinon = require('sinon');
 var Quenda = require('../src/quenda');
 
 describe('Quenda', function() {
@@ -43,6 +44,8 @@ describe('Quenda', function() {
             Quenda.new({});
             Quenda.new({});
 
+            expect(Quenda.getAll().length).to.equal(3);
+
             Quenda.deleteAll();
 
             expect(Quenda.getAll().length).to.equal(0);
@@ -67,6 +70,89 @@ describe('Quenda', function() {
     });
 
     describe('Queues API', function() {
+        var clock;
 
+        beforeEach(function() {
+            Quenda.deleteAll();
+            clock = sinon.useFakeTimers();
+        });
+
+        afterEach(function() {
+            clock.restore();
+        });
+
+        it('should add a step', function() {
+            var myQueue = Quenda.new().add({
+                nextDelay: 1000
+            });
+
+            expect(myQueue.getSteps().length).to.equal(1);
+        });
+
+        it('should add an array of steps', function() {
+            var myQueue = Quenda.new().add([{
+                nextDelay: 1000
+            }, {
+                nextDelay: 1000
+            }]);
+
+            expect(myQueue.getSteps().length).to.equal(2);
+        });
+
+        it('should throw an error if a step is added without arguments', function() {
+            expect(function() {
+                return Quenda.new().add();
+            }).to.throw(Error);
+        });
+
+        it('should throw an error if a step is added with a negative nextDelay', function() {
+            expect(function() {
+                return Quenda.new().add({
+                    nextDelay: -1
+                });
+            }).to.throw(Error);
+        });
+
+        it('should pause', function() {
+            var counter = 0;
+
+            Quenda.new().add([{
+                nextDelay: 1000
+            }, {
+                nextDelay: 1000,
+                fn: function() {
+                    counter++;
+                }
+            }]).play().pause();
+
+            expect(counter).to.equal(0);
+            clock.tick(1000);
+            expect(counter).to.equal(0);
+
+        });
+
+        it('should move to next ignoring the delay', function() {
+            var counter = 0;
+
+            Quenda.new().add([{
+                nextDelay: 1000
+            }, {
+                nextDelay: 1000,
+                fn: function() {
+                    counter++;
+                }
+            }]).play().next();
+
+            expect(counter).to.equal(1);
+        });
+
+        it('should auto destroy one step', function() {
+
+            var myQueue =  Quenda.new().add({
+                autoDestroy: true
+            }).play();
+
+            expect(myQueue.getSteps().length).to.equal(0);
+        });
     });
 });
