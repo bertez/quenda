@@ -1,6 +1,7 @@
 {
   "name": "quenda",
   "version": "0.0.1",
+  "homepage": "https://github.com/bertez/quenda",
   "description": "A simple javascript function queue.",
   "main": "dist/quenda.js",
   "scripts": {
@@ -9,6 +10,10 @@
   "keywords": [
     "queue"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bertez/quenda.git"
+  },
   "author": "Berto Yáñez <berto@ber.to>",
   "license": "MIT",
   "devDependencies": {
