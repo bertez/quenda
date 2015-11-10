@@ -9,17 +9,15 @@
     <section class="ui-animation">
         <h1 class="ui-title"></h1>
     </section>
-
     <button onclick="myQuenda.play()">Play</button>
     <button onclick="myQuenda.pause()">Pause</button>
     <button onclick="myQuenda.next()">Next</button>
-
+    <button onclick="myQuenda.prev()">Prev</button>
     <script src="../node_modules/merge/merge.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../dist/quenda.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../src/quenda.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
     /* global Quenda*/
 
-    console.log(Quenda);
 
     Quenda.deleteAll();
 
@@ -28,20 +26,18 @@
         // maxLoops: 3
     }, 'initial');
 
-    console.log(myQuenda);
 
     var $animation = document.querySelector('.ui-animation');
     var $title = $animation.querySelector('.ui-title');
 
 
     myQuenda.add([{
-        nextDelay: 2000,
-        // autoDestroy: true,
+        nextDelay: 500,
         fn: function() {
             $title.textContent = 'Click play to start';
         }
     }, {
-        nextDelay: 2000,
+        nextDelay: 1000,
         fn: function() {
             $title.textContent = 'Hello';
         }
@@ -51,14 +47,39 @@
             'http://owlgraphic.com/owlcarousel/demos/assets/owl2.jpg',
             'http://owlgraphic.com/owlcarousel/demos/assets/owl3.jpg'
         ],
-        nextDelay: 2000,
+        nextDelay: 1500,
         fn: function() {
             $title.textContent = 'World';
         }
-    }]);
+    }, {
+        nextDelay: 2000,
+        fn: function() {
+            $title.textContent = 'and you!';
+        }
+    }]).play();
 
-    console.log(Quenda.getAll());
-    myQuenda.play();
+
+
+    // var counter;
+
+    // Quenda.new({
+    //     loop: true
+    // }).add([{
+    //     nextDelay: 1000,
+    //     fn: function() {
+    //         counter = 0;
+    //         console.log(counter);
+    //     }
+    // }, {
+    //     nextDelay: 1000,
+    //     fn: function() {
+    //         counter = 1;
+
+    //         console.log(counter);
+    //     }
+    // }]).play();
+
+    console.log(myQuenda);
     </script>
 </body>
 

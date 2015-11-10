@@ -5,6 +5,7 @@ var rename = require('gulp-rename');
 var stylish = require('jshint-stylish');
 var header = require('gulp-header');
 var mocha = require('gulp-mocha');
+var replace = require('gulp-replace');
 
 var package = require('./package.json');
 var banner = ['/**',
@@ -38,6 +39,7 @@ gulp.task('build', ['jshint', 'test'], function() {
         .pipe(header(banner, {
             pkg: package
         }))
+        .pipe(replace(/VERSION/g, package.version))
         .pipe(gulp.dest('dist'))
         .pipe(uglify())
         .pipe(rename({

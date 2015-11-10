@@ -86,7 +86,7 @@ describe('Quenda', function() {
                 nextDelay: 1000
             });
 
-            expect(myQueue.getSteps().length).to.equal(1);
+            expect(myQueue.steps.length).to.equal(1);
         });
 
         it('should add an array of steps', function() {
@@ -96,7 +96,7 @@ describe('Quenda', function() {
                 nextDelay: 1000
             }]);
 
-            expect(myQueue.getSteps().length).to.equal(2);
+            expect(myQueue.steps.length).to.equal(2);
         });
 
         it('should throw an error if a step is added without arguments', function() {
@@ -148,11 +148,71 @@ describe('Quenda', function() {
 
         it('should auto destroy one step', function() {
 
-            var myQueue =  Quenda.new().add({
+            var myQueue = Quenda.new().add({
                 autoDestroy: true
             }).play();
 
-            expect(myQueue.getSteps().length).to.equal(0);
+            expect(myQueue.steps.length).to.equal(0);
+        });
+
+        it('should loop', function() {
+            var counter;
+
+            Quenda.new({
+                loop: true
+            }).add([{
+                nextDelay: 1000,
+                fn: function() {
+                    counter = 0;
+                }
+            }, {
+                nextDelay: 1000,
+                fn: function() {
+                    counter = 1;
+                }
+            }]).play();
+
+            expect(counter).to.equal(0);
+            clock.tick(1000);
+            expect(counter).to.equal(1);
+            clock.tick(1000);
+            expect(counter).to.equal(0);
+        });
+
+        it('should stop looping after reaching maxLoops', function() {
+            var counter = 0;
+
+            Quenda.new({
+                loop: true,
+                maxLoops: 2
+            }).add([{
+                nextDelay: 1000,
+                fn: function() {
+                    counter++;
+                }
+            }, {
+                nextDelay: 1000,
+                fn: function() {
+                    counter++;
+                }
+            }]).play();
+
+            expect(counter).to.equal(1);
+            clock.tick(1000);
+            expect(counter).to.equal(2);
+            clock.tick(1000);
+            expect(counter).to.equal(3);
+            clock.tick(1000);
+            expect(counter).to.equal(4);
+            clock.tick(1000);
+            expect(counter).to.equal(5);
+            clock.tick(1000);
+            expect(counter).to.equal(6);
+            clock.tick(1000);
+            expect(counter).to.equal(6);
+            clock.tick(1000);
+            expect(counter).to.equal(6);
+
         });
     });
 });

@@ -6,6 +6,8 @@
  * @license MIT
  */
 (function(root, factory) {
+    'use strict';
+
     if (typeof define === 'function' && define.amd) {
         define(['merge'], factory);
     } else if (typeof module === 'object' && module.exports) {
@@ -18,13 +20,26 @@
 
     var defaultConfig = {
         loop: false,
-        defaultDelay: 1000,
         maxLoops: Infinity
     };
 
+    /**
+     * Quenda object
+     * @type {Object}
+     */
     var Quenda = {
         queues: [],
         prototype: {
+
+            /**
+             * Queues API
+             */
+
+            /**
+             * Adds a new step to this queue
+             * @param {Object} step Step definition
+             * @return {Object} This queue instance
+             */
             add: function(step) {
                 if (!step) {
                     throw new Error('Not enough arguments');
@@ -35,80 +50,118 @@
                         this.add(s);
                     }, this);
                 } else {
-                    if (step.nextDelay < 0) {
-                        throw new Error('Steps shold have at least a nextDelay property greater than 0');
+                    if (step.nextDelay && step.nextDelay < 0) {
+                        throw new Error('nextDelay property must be greater than 0');
+                    }
+
+                    if (step.fn && typeof(step.fn) !== 'function') {
+                        throw new Error('The property fn must be a function');
+                    }
+
+                    if (step.autoDestroy && typeof(step.autoDestroy) !== 'boolean') {
+                        throw new Error('The property autoDestroy must be a boolean');
                     }
 
                     this.steps.push(step);
                 }
                 return this;
             },
+            /**
+             * Plays this queue
+             * @return {Object} This queue instance
+             */
             play: function() {
-                this._ExecuteNext(this._getNext());
-                this.paused = false;
+                this._execute(this._current);
+
                 return this;
             },
+            /**
+             * Pauses this queue
+             * @return {Object} This queue instance
+             */
             pause: function() {
                 if (this._currentTimeout) {
                     clearTimeout(this._currentTimeout);
                 }
-                this.paused = true;
                 return this;
             },
+            /**
+             * Moves to next element in this queue
+             * @return {Object} This queue instance
+             */
             next: function() {
                 this.pause();
+                this._current++;
                 this.play();
 
                 return this;
             },
-            getSteps: function() {
-                return this.steps;
+            /**
+             * Moves to the previous element in this queue
+             * @return {Object} This queue instance
+             */
+            prev: function() {
+                this.pause();
+                this._current--;
+                this.play();
+
+                return this;
             },
             _current: 0,
             loops: 0,
-            _ExecuteNext: function(step) {
-                if (step.autoDestroy) {
-                    var index = this.steps.indexOf(step);
-                    --this._current;
-                    this.steps.splice(index, 1);
+            /**
+             * Executes one element of the queue
+             * @param  {number} index the element index
+             */
+            _execute: function(index) {
+                var step;
+
+                if (!this.steps[index]) {
+                    if (this.config.loop && this.loops < this.config.maxLoops) {
+                        this.loops++;
+                        step = this.steps[this._current = 0];
+                    } else {
+                        return false;
+                    }
+                } else {
+                    step = this.steps[this._current];
                 }
 
                 if (step.preload && !step.preloaded) {
                     this._handlePreload(step.preload, function() {
-                        this._setNextTimeout(parseInt(step.nextDelay, 10));
+                        this._setNextTimeout(step.nextDelay);
                         step.preloaded = true;
                         step.fn && step.fn();
                     }.bind(this));
                 } else {
-                    this._setNextTimeout(parseInt(step.nextDelay));
+                    this._setNextTimeout(step.nextDelay);
                     step.fn && step.fn();
                 }
-            },
-            _getNext: function() {
-                var nextStep;
 
-                if (this._current === this.steps.length) {
-                    if (this.config.loop && this.loops < this.config.maxLoops) {
-                        this.loops++;
-                        nextStep = this._current = 0;
-                    } else {
-                        return;
-                    }
-                } else {
-                    nextStep = this._current;
+                if (step.autoDestroy) {
+                    var i = this.steps.indexOf(step);
+                    this._current = i;
+                    this.steps.splice(i, 1);
                 }
-
-                this._current++;
-
-                return this.steps[nextStep];
             },
+            /**
+             * Sets the execution timeout of the next element in the queue
+             * @param {number} nextDelay the delay in ms
+             */
             _setNextTimeout: function(nextDelay) {
-                if (!this.paused) {
+                var delay = nextDelay || this.config.defaultDelay;
+
+                if (delay) {
                     this._currentTimeout = setTimeout(function() {
-                        this._ExecuteNext(this._getNext());
-                    }.bind(this), nextDelay || this.config.defaultDelay);
+                        this._execute(++this._current);
+                    }.bind(this), nextDelay);
                 }
             },
+            /**
+             * Handles the image preload
+             * @param  {Array}   images   array of image urls
+             * @param  {Function} callback callback to execute after all the images are loaded
+             */
             _handlePreload: function(images, callback) {
                 var loaded = 0;
                 images.forEach(function(src) {
@@ -121,21 +174,42 @@
                 });
             }
         },
+        /**
+         * Gets all the queues stored in the main object
+         * @return {Array} Array of queue instances
+         */
         getAll: function() {
             return this.queues;
         },
+        /**
+         * Deletes all the queues stored in the main object
+         * @return {Quenda} The main object
+         */
         deleteAll: function() {
             this.getAll().forEach(function(queue) {
                 queue.instance.pause();
             });
 
             this.queues = [];
+
+            return this;
         },
+        /**
+         * Delete a queue stored in the main object
+         * @param  {number} index The queue index
+         * @return {Quenda} The main object
+         */
         delete: function(index) {
             var queue = this.queues.splice(index, 1);
             queue[0].instance.pause();
             return this;
         },
+        /**
+         * Create a new queue
+         * @param  {Object} config The queue configuration
+         * @param  {[type]} [name] The queue name
+         * @return {[type]} The queue instance
+         */
         new: function(config, name) {
             if (config && config !== Object(config)) {
                 throw new Error('Config object should be a key/value object.');
@@ -150,11 +224,18 @@
                 instance: instance
             });
 
-            instance.config = merge({}, defaultConfig, config);
-            instance.steps = [];
+            merge(instance, {
+                config: merge({}, defaultConfig, config),
+                steps: []
+            });
+
             return instance;
         }
     };
+
+    Quenda.fn = Quenda.prototype;
+
+    Quenda.version = '0.0.1';
 
     return Quenda;
 }));
