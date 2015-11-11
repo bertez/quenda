@@ -1,0 +1,28 @@
+{
+  "name": "quenda",
+  "description": "A simple javascript function queue.",
+  "main": "dist/quenda.js",
+  "authors": [
+    "Berto Yáñez <berto@ber.to>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "queue"
+  ],
+  "homepage": "https://github.com/bertez/quenda",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "merge": "*"
+  }
+}
