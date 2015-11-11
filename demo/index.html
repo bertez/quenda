@@ -46,9 +46,9 @@
     }, {
         nextDelay: 3000,
         preload: [
-            'http://owlgraphic.com/owlcarousel/demos/assets/owl1.jpg',
-            'http://owlgraphic.com/owlcarousel/demos/assets/owl2.jpg',
-            'http://owlgraphic.com/owlcarousel/demos/assets/owl3.jpg'
+            'http://i.imgur.com/M8iXwFZ.jpg',
+            'http://i.imgur.com/uw39W0F.jpg',
+            'http://i.imgur.com/ygy0ell.jpg'
         ],
         fn: function(step) {
 
@@ -56,13 +56,12 @@
                 return '<img src="' + s + '">';
             }).join('');
 
-            $title.innerHTML = 'Owls!<br>' + owls;
+            $title.innerHTML = 'Here are some preloaded images!<br><br>' + owls;
         }
     }, {
         nextDelay: 4000,
-        autoDestroy: true,
         fn: function() {
-            $title.innerHTML = 'and you!';
+            $title.innerHTML = 'Let\'s start again!';
         }
     }]).play();
     </script>
