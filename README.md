@@ -47,6 +47,7 @@ require(['quenda'], function(Quenda) {
         fn: function() {
             console.log('second');
         }
+    }
   ]);
 
   myQueue.play();
