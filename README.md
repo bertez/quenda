@@ -112,6 +112,7 @@ preload | An array of image urls that will be preloaded before this step is exec
 
 # Changelog
 
+- 1.0.5: bower and npm
 - 1.0.4: first public version
 - 1.0.3: Bug fixes. Implemented autoDestroy.
 - 1.0.2: Travis integration
