@@ -25,7 +25,7 @@
 
             /**
              * Adds a new step to this queue
-             * @param {Object} step Step definition
+             * @param {Object} Step definition
              * @return {Object} This queue instance
              */
             add: function(step) {
@@ -50,6 +50,10 @@
                         throw new Error('The property autoDestroy must be a boolean');
                     }
 
+                    if (step.preload && !Array.isArray(step.preload)) {
+                        throw new Error('The property preload must be an array of urls');
+                    }
+
                     this.steps.push(step);
                 }
                 return this;
@@ -60,7 +64,7 @@
              */
             play: function() {
                 // if(!this.playing) {
-                    this._execute(this._current);
+                this._execute(this._current);
                 //     this.playing = true;
                 // }
 
@@ -191,17 +195,17 @@
         },
         /**
          * Delete a queue stored in the main object
-         * @param  {number} index The queue index
+         * @param  {number} [index] The queue index
          * @return {Quenda} The main object
          */
         delete: function(index) {
-            var queue = this.queues.splice(index, 1);
+            var queue = this.queues.splice(index || 0, 1);
             queue[0].instance.pause();
             return this;
         },
         /**
          * Create a new queue
-         * @param  {Object} config The queue configuration
+         * @param  {Object} [config] The queue configuration
          * @param  {[type]} [name] The queue name
          * @return {[type]} The queue instance
          */
