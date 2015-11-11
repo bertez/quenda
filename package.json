@@ -1,6 +1,6 @@
 {
   "name": "quenda",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/bertez/quenda",
   "description": "A simple javascript function queue.",
   "main": "dist/quenda.js",
