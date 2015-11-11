@@ -19,15 +19,33 @@ Quenda is a simple javascript function queue. With quenda you can create queues 
 
 ### Using in a CommonJS environment (node, webpack, ...)
 
-``` var Quenda = require('quenda');```
+```js
+var Quenda = require('quenda');
+var myQueue = Quenda.new();
+//..
+```
 
 ### Using in a AMD environment (requirejs, webpack,...)
 
 ```js
 require(['quenda'], function(Quenda) {
+  var myQueue = Quenda.new();
   //..
 });
 ```
+
+### Using without any js loader
+
+```html
+<script type="text/javascript" src="path/to/your/download/folder/dist/quenda.min.js">
+
+<script type="text/javascript">
+    var myQueue = Quenda.new();
+    //...
+</script>
+
+```
+
 
 ## Simple example
 
