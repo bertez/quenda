@@ -214,5 +214,34 @@ describe('Quenda', function() {
             expect(counter).to.equal(6);
 
         });
+
+        it('should use the default delay if it exists', function() {
+            var counter = 0;
+
+            Quenda.new({
+                defaultDelay: 1000
+            }).add([{
+                fn: function() {
+                    counter++;
+                }
+            }, {
+                fn: function() {
+                    counter++;
+                }
+            }, {
+                fn: function() {
+                    counter++;
+                }
+            }]).play();
+
+            expect(counter).to.equal(1);
+            clock.tick(1000);
+            expect(counter).to.equal(2);
+            clock.tick(1000);
+            expect(counter).to.equal(3);
+            clock.tick(1000);
+            expect(counter).to.equal(3);
+
+        });
     });
 });

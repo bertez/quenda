@@ -11,11 +11,6 @@
 }(this, function(merge) {
     'use strict';
 
-    var defaultConfig = {
-        loop: false,
-        maxLoops: Infinity
-    };
-
     /**
      * Quenda object
      * @type {Object}
@@ -64,7 +59,10 @@
              * @return {Object} This queue instance
              */
             play: function() {
-                this._execute(this._current);
+                // if(!this.playing) {
+                    this._execute(this._current);
+                //     this.playing = true;
+                // }
 
                 return this;
             },
@@ -76,6 +74,9 @@
                 if (this._currentTimeout) {
                     clearTimeout(this._currentTimeout);
                 }
+
+                // this.playing = false;
+
                 return this;
             },
             /**
@@ -102,6 +103,7 @@
             },
             _current: 0,
             loops: 0,
+            playing: false,
             /**
              * Executes one element of the queue
              * @param  {number} index the element index
@@ -124,11 +126,11 @@
                     this._handlePreload(step.preload, function() {
                         this._setNextTimeout(step.nextDelay);
                         step.preloaded = true;
-                        step.fn && step.fn();
+                        step.fn && step.fn.call(this, step);
                     }.bind(this));
                 } else {
                     this._setNextTimeout(step.nextDelay);
-                    step.fn && step.fn();
+                    step.fn && step.fn.call(this, step);
                 }
 
                 if (step.autoDestroy) {
@@ -147,7 +149,7 @@
                 if (delay) {
                     this._currentTimeout = setTimeout(function() {
                         this._execute(++this._current);
-                    }.bind(this), nextDelay);
+                    }.bind(this), delay);
                 }
             },
             /**
@@ -207,6 +209,11 @@
             if (config && config !== Object(config)) {
                 throw new Error('Config object should be a key/value object.');
             }
+
+            var defaultConfig = {
+                loop: false,
+                maxLoops: Infinity
+            };
 
             var instance = Object.create(this.prototype);
 
