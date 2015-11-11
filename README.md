@@ -34,7 +34,7 @@ require(['quenda'], function(Quenda) {
 });
 ```
 
-### Using without any js loader
+### Using without any module loader
 
 ```html
 <script type="text/javascript" src="path/to/your/download/folder/dist/quenda.min.js">
