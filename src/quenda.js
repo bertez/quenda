@@ -23,6 +23,7 @@
                 throw new Error('Not enough arguments');
             }
 
+
             if (Array.isArray(step)) {
                 step.forEach(function(s) {
                     this.add(s);
