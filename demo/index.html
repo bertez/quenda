@@ -9,61 +9,57 @@
     <button onclick="myQuenda.play()">Play</button>
     <button onclick="myQuenda.pause()">Pause</button>
     <button onclick="myQuenda.next()">Next</button>
-    <button onclick="myQuenda.prev()">Prev</button> |
-    <button onclick="console.log(myQuenda)">Status</button>
+    <button onclick="myQuenda.prev()">Prev</button>
+
     <section class="ui-animation">
         <h1 class="ui-title"></h1>
     </section>
+
     <script src="../node_modules/merge/merge.js" type="text/javascript" charset="utf-8"></script>
     <script src="../src/quenda.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
-    /* global Quenda*/
+        /* global Quenda*/
 
+        var $animation = document.querySelector('.ui-animation');
+        var $title = $animation.querySelector('.ui-title');
 
-    Quenda.deleteAll();
+        var myQuenda = Quenda.new({
+            loop: true,
+            maxLoops: 3,
+            defaultDelay: 2000
+        }, 'initial');
 
-    var myQuenda = Quenda.new({
-        loop: true,
-        // maxLoops: 3,
-        defaultDelay: 2000
-    }, 'initial');
+        myQuenda.add([{
+            autoDestroy: true,
+            fn: function() {
+                $title.innerHTML = 'Click play to start';
+                this.pause();
+            }
+        }, {
+            fn: function() {
+                $title.innerHTML = 'Hello';
+            }
+        }, {
+            nextDelay: 3000,
+            preload: [
+                'http://i.imgur.com/M8iXwFZ.jpg',
+                'http://i.imgur.com/uw39W0F.jpg',
+                'http://i.imgur.com/ygy0ell.jpg'
+            ],
+            fn: function(step) {
 
+                var owls = step.preload.map(function(s) {
+                    return '<img src="' + s + '">';
+                }).join('');
 
-    var $animation = document.querySelector('.ui-animation');
-    var $title = $animation.querySelector('.ui-title');
-
-
-    myQuenda.add([{
-        autoDestroy: true,
-        fn: function() {
-            $title.innerHTML = 'Click play to start';
-            this.pause();
-        }
-    }, {
-        fn: function() {
-            $title.innerHTML = 'Hello';
-        }
-    }, {
-        nextDelay: 3000,
-        preload: [
-            'http://i.imgur.com/M8iXwFZ.jpg',
-            'http://i.imgur.com/uw39W0F.jpg',
-            'http://i.imgur.com/ygy0ell.jpg'
-        ],
-        fn: function(step) {
-
-            var owls = step.preload.map(function(s) {
-                return '<img src="' + s + '">';
-            }).join('');
-
-            $title.innerHTML = 'Here are some preloaded images!<br><br>' + owls;
-        }
-    }, {
-        nextDelay: 4000,
-        fn: function() {
-            $title.innerHTML = 'Let\'s start again!';
-        }
-    }]).play();
+                $title.innerHTML = 'Here are some preloaded images!<br><br>' + owls;
+            }
+        }, {
+            nextDelay: 4000,
+            fn: function() {
+                $title.innerHTML = 'Let\'s start again!';
+            }
+        }]).play();
     </script>
 </body>
 

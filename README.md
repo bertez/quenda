@@ -95,6 +95,7 @@ prev() | Executes the previous step in the queue. Does not loop, stops when the 
 
 ### New step config options
 
+You can create new steps using Quenda.new(stepConfig) and also Quenda.new([stepConfig, stepConfig, ...]). See basic example above.
 
 Variable |  Description | Type
 ---------|-------------|--------------
