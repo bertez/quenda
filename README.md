@@ -23,7 +23,7 @@ Quenda is a simple javascript function queue. With quenda you can create queues 
 
 ### Using in a AMD environment (requirejs, webpack,...)
 
-```
+```js
 require(['quenda'], function(Quenda) {
   //..
 });
@@ -33,7 +33,7 @@ require(['quenda'], function(Quenda) {
 
 You can easily create new queues like this:
 
-```
+```js
 require(['quenda'], function(Quenda) {
 
   var myQueue = Quenda.new().add([
@@ -59,7 +59,7 @@ After executing this code you will se in your console log output the word 'first
 
 ## Advanced example
 
-Check **demo/index.html** for a more complex example.
+Check [demo/index.html](https://github.com/bertez/quenda/blob/master/demo/index.html) for a more complex example.
 
 ## Main object (Quenda) API
 
@@ -103,6 +103,10 @@ fn | Function to execute in this step. The *this* value is the queue and the fir
 autoDestroy | If true the step will be shown once and then removed | boolean
 preload | An array of image urls that will be preloaded before this step is executed. The delay value will start to count after the preload is completed. *Note: this only works in browser environments*. | array
 
+# Building
+
+1. ```npm install```
+2. ```gulp build```
 
 # Changelog
 
