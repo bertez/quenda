@@ -1,6 +1,6 @@
 /**
  * quenda - A simple javascript function queue.
- * @version v1.0.1
+ * @version v1.0.2
  * @author Berto Yáñez <berto@ber.to>
  * @homepage https://github.com/bertez/quenda
  * @license MIT
@@ -246,7 +246,7 @@
 
     Quenda.fn = Quenda.prototype;
 
-    Quenda.version = '1.0.1';
+    Quenda.version = '1.0.2';
 
     return Quenda;
 }));
