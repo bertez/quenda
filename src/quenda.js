@@ -79,7 +79,13 @@
          */
         next: function() {
             this.pause();
-            this._executeStep(++this._current);
+
+            if (this._recentDestroy) {
+                this._executeStep(this._current);
+                this._recentDestroy = false;
+            } else {
+                this._executeStep(++this._current);
+            }
 
             return this;
         },
@@ -96,6 +102,7 @@
         _current: 0,
         _loops: 0,
         _playing: false,
+        _recentDestroy: false,
         /**
          * Executes one element of the queue
          * @param  {number} index the element index
@@ -128,6 +135,7 @@
             if (step.autoDestroy) {
                 var i = this.steps.indexOf(step);
                 this._current = i;
+                this._recentDestroy = true;
                 this.steps.splice(i, 1);
             }
         },
