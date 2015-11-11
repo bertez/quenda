@@ -101,7 +101,7 @@ Variable |  Description | Type
 ---------|-------------|--------------
 nextDelay| The number of miliseconds to wait before executing the next step. If it is not present and the queue is configured with a defaultDelay this value will be used. | number (ms)
 fn | Function to execute in this step. The *this* value is the queue and the first argument is the step. See the demo for an example. | function
-autoDestroy | If true the step will be shown once and then removed | boolean
+autoDestroy | If true the step will be executed once and then removed from the queue | boolean
 preload | An array of image urls that will be preloaded before this step is executed. The delay value will start to count after the preload is completed. *Note: this only works in browser environments*. | array
 
 # Building
