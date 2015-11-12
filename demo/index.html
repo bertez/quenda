@@ -20,8 +20,7 @@
     <script type="text/javascript">
         /* global Quenda*/
 
-        var $animation = document.querySelector('.ui-animation');
-        var $title = $animation.querySelector('.ui-title');
+        var $title = document.querySelector('.ui-title');
 
         var myQuenda = Quenda.new({
             loop: true,
@@ -48,11 +47,11 @@
             ],
             fn: function(step) {
 
-                var owls = step.preload.map(function(s) {
+                var images = step.preload.map(function(s) {
                     return '<img src="' + s + '">';
                 }).join('');
 
-                $title.innerHTML = 'Here are some preloaded images!<br><br>' + owls;
+                $title.innerHTML = 'Here are some preloaded images!<br><br>' + images;
             }
         }, {
             nextDelay: 4000,
