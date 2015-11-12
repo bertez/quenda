@@ -37,7 +37,8 @@ require(['quenda'], function(Quenda) {
 ### Using without any module loader
 
 ```html
-<script type="text/javascript" src="path/to/your/download/folder/dist/quenda.min.js">
+<script type="text/javascript" src="path/to/your/merge/download/folder/merge.js">
+<script type="text/javascript" src="path/to/your/quenda/download/folder/dist/quenda.min.js">
 
 <script type="text/javascript">
     var myQueue = Quenda.new();
