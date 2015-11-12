@@ -96,9 +96,9 @@ deleteAll() | Deletes all queues
 
 Variable | Default Value | Description | Type
 ---------|---------------|-------------|--------------
-loop| false | Defines if the queue should loop | boolean
-maxLoops | Infinity | Defines the max number of loops | number (integer)
-defaultDelay | undefined | Define the default delay for the queue steps with no delay defined | number (ms)
+loop| false | Defines if the queue should loop. | boolean
+maxLoops | Infinity | Defines the max number of loops. | number (integer)
+defaultDelay | undefined | Define the default delay for the queue steps with no delay defined. | number (ms)
 
 ## Queues API
 
@@ -118,10 +118,10 @@ You can create new steps using Quenda.new(stepConfig) and also Quenda.new([stepC
 
 Variable |  Description | Type
 ---------|-------------|--------------
-nextDelay| The number of miliseconds to wait before executing the next step. If it is not present and the queue is configured with a defaultDelay this value will be used. | number (ms)
-fn | Function to execute in this step. The *this* value is the queue and the first argument is the step. See the demo for an example. | function
-autoDestroy | If true the step will be executed once and then removed from the queue | boolean
-preload | An array of image urls that will be preloaded before this step is executed. The delay value will start to count after the preload is completed. *Note: this only works in browser environments*. | array
+nextDelay| The number of miliseconds to wait before executing the next step. If it is not present the queue will stop unless it is configured with a defaultDelay value (see avobe). | number (ms)
+fn | Function to execute in this step. The *this* value is binded to the queue itself and the first argument is the current step. See [demo/index.html](https://github.com/bertez/quenda/blob/master/demo/index.html) for an example. | function
+autoDestroy | If true the step will be executed once and then removed from the queue. | boolean
+preload | An array of image urls that will be preloaded before this step is executed. The time will start to count after the preload is completed. **Note: this only works in browser environments**. | array
 
 # Building
 
