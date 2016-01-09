@@ -21,7 +21,7 @@ gulp.task('watch', function() {
     gulp.watch('src/**/*.js', ['jshint']);
 });
 
-gulp.task('lint', () => {
+gulp.task('lint', function() {
     return gulp.src(['src/**/*.js'])
     .pipe(eslint())
     .pipe(eslint.format())
