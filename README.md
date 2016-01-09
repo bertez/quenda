@@ -1,7 +1,7 @@
 # Quenda
 
 [![Build Status](https://travis-ci.org/bertez/quenda.svg?branch=master)](https://travis-ci.org/bertez/quenda)
-[![Codacy Badge](https://api.codacy.com/project/badge/grade/2d11ee5ae6fa47afbb90187a65a59dcf)](https://www.codacy.com/app/berto/quenda)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/2d11ee5ae6fa47afbb90187a65a59dcf)](https://www.codacy.com/app/berto/quenda) [![npm version](https://badge.fury.io/js/quenda.svg)](https://badge.fury.io/js/quenda)
 
 Quenda is a simple javascript function queue. With quenda you can create queues of functions and execute them in order with a delay. It also has controls for executing next and previous functions, playing and pausing the queue and many more...
 
