@@ -1,6 +1,6 @@
 /**
  * quenda - A simple javascript function queue.
- * @version v1.0.6
+ * @version v1.0.7
  * @author Berto Yáñez <berto@ber.to>
  * @homepage https://github.com/bertez/quenda
  * @license MIT
@@ -133,11 +133,18 @@
                 this._handlePreload(step.preload, function() {
                     step.preloaded = true;
                     this._setNext(step.nextDelay);
-                    step.fn && step.fn.call(this, step);
+
+                    if(step.fn) {
+                        step.fn.call(this, step);
+                    }
+
                 }.bind(this));
             } else {
                 this._setNext(step.nextDelay);
-                step.fn && step.fn.call(this, step);
+
+                if(step.fn) {
+                    step.fn.call(this, step);
+                }
             }
 
             if (step.autoDestroy) {
@@ -250,7 +257,7 @@
 
     Quenda.fn = Quenda.prototype = Queue;
 
-    Quenda.version = '1.0.6';
+    Quenda.version = '1.0.7';
 
     return Quenda;
 }));

@@ -126,11 +126,18 @@
                 this._handlePreload(step.preload, function() {
                     step.preloaded = true;
                     this._setNext(step.nextDelay);
-                    step.fn && step.fn.call(this, step);
+
+                    if(step.fn) {
+                        step.fn.call(this, step);
+                    }
+
                 }.bind(this));
             } else {
                 this._setNext(step.nextDelay);
-                step.fn && step.fn.call(this, step);
+
+                if(step.fn) {
+                    step.fn.call(this, step);
+                }
             }
 
             if (step.autoDestroy) {
